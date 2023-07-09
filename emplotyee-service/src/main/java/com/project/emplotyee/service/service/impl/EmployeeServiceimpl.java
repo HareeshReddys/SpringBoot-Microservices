@@ -1,5 +1,7 @@
 package com.project.emplotyee.service.service.impl;
 
+import com.project.emplotyee.service.dto.APIResponceDto;
+import com.project.emplotyee.service.dto.Departmentdto;
 import com.project.emplotyee.service.dto.EmployeeDto;
 import com.project.emplotyee.service.entity.Employee;
 import com.project.emplotyee.service.mapper.AutoEmployeeMapper;
@@ -9,7 +11,10 @@ import com.project.emplotyee.service.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @AllArgsConstructor
 @Service
@@ -18,14 +23,18 @@ public class EmployeeServiceimpl implements EmployeeService {
     @Autowired
    public ModelMapper modelMapper;
 
+
+//    public RestTemplate restTemplate;
+
     @Autowired
+    private WebClient webClient;
     public EmployeeRepository employeeRepository;
 
 
     @Override
     public EmployeeDto saveemployeed(EmployeeDto employeeDto) {
-        // Converting the employeeDto in employee Jpa
 
+        // Converting the employeeDto in employee Jpa
         Employee employee = AutoEmployeeMapper.MAPPER.mapToEmployee(employeeDto);
 
          // Converting the employeeDto in employee Jpa by using model mapper
@@ -51,11 +60,8 @@ public class EmployeeServiceimpl implements EmployeeService {
 
 //        EmployeeDto employeeDto1 = modelMapper.map(employee,EmployeeDto.class);
 
-
    // Converting the employee Jpa into employeedto by using model
-
 //      EmployeeDto employeeDto1 =  EmployeeMapper.maptoEmployeeDto(employee);
-
    // Converting the employee Jpa into employeedto Normal method
 //        EmployeeDto employeeDto1 = new EmployeeDto(
 //               employee.getId(),
@@ -67,9 +73,21 @@ public class EmployeeServiceimpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDto GetEmployeeById(Long employeeById) {
+    public APIResponceDto GetEmployeeById(Long employeeById) {
         Employee employee = employeeRepository.findById(employeeById).get();
 
+
+        // using Webclient calling the departmentmethod
+       Departmentdto departmentdto = webClient.get()
+                .uri("http://localhost:8083/api/departments/" + employee.getDepartmentCode())
+                .retrieve()
+                .bodyToMono(Departmentdto.class)
+                .block();
+
+        // RestTemplate
+//       ResponseEntity<Departmentdto>  responseEntity = restTemplate.getForEntity("http://localhost:8083/api/departments/"+ employee.getDepartmentCode(),
+//                Departmentdto.class);
+//       Departmentdto departmentdto= responseEntity.getBody();
 
 // method 3
         EmployeeDto employeeDto = modelMapper.map(employee,EmployeeDto.class );
@@ -82,7 +100,11 @@ public class EmployeeServiceimpl implements EmployeeService {
 //                employee.getLastName(),
 //                employee.getEmail()
 //        );
-        return employeeDto;
+
+        APIResponceDto apiResponceDto = new APIResponceDto();
+        apiResponceDto.setEmployee(employeeDto);
+        apiResponceDto.setDepartment(departmentdto);
+        return apiResponceDto;
     }
 //
 //    @Override

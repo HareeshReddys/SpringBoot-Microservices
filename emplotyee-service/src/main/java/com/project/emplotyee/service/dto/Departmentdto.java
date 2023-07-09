@@ -1,7 +1,6 @@
 package com.project.emplotyee.service.dto;
 
 
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +10,11 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeDto {
+public class Departmentdto {
 
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
+    private String departmentName;
+    private String departmentDescription;
     private String departmentCode;
+
 }
