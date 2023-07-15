@@ -33,13 +33,10 @@ public class EmployeeController {
 //        return new ResponseEntity<>(getemployeedetails,HttpStatus.OK);
 //
 //    }
-
-
     @GetMapping("{id}")
     private ResponseEntity<APIResponceDto>getemployeedetails(@PathVariable("id") Long employeeById){
         APIResponceDto apiResponceDto = employeeService.GetEmployeeById(employeeById);
         return new ResponseEntity<>(apiResponceDto,HttpStatus.OK);
-
     }
 
 

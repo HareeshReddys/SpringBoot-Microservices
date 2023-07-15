@@ -12,5 +12,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class APIResponceDto {
     private EmployeeDto employee;
-    private Departmentdto department;
+    private DepartmentDto department;
 }

@@ -1,12 +1,13 @@
 package com.project.emplotyee.service.service.impl;
 
 import com.project.emplotyee.service.dto.APIResponceDto;
-import com.project.emplotyee.service.dto.Departmentdto;
+import com.project.emplotyee.service.dto.DepartmentDto;
 import com.project.emplotyee.service.dto.EmployeeDto;
 import com.project.emplotyee.service.entity.Employee;
 import com.project.emplotyee.service.mapper.AutoEmployeeMapper;
 import com.project.emplotyee.service.mapper.EmployeeMapper;
 import com.project.emplotyee.service.repository.EmployeeRepository;
+import com.project.emplotyee.service.service.APIClient;
 import com.project.emplotyee.service.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,10 +25,9 @@ public class EmployeeServiceimpl implements EmployeeService {
    public ModelMapper modelMapper;
 
 
-//    public RestTemplate restTemplate;
-
-    @Autowired
-    private WebClient webClient;
+//    public RestTemplate restTemplate
+ //    private WebClient webClient;
+    private APIClient apiClient;
     public EmployeeRepository employeeRepository;
 
 
@@ -35,6 +35,7 @@ public class EmployeeServiceimpl implements EmployeeService {
     public EmployeeDto saveemployeed(EmployeeDto employeeDto) {
 
         // Converting the employeeDto in employee Jpa
+
         Employee employee = AutoEmployeeMapper.MAPPER.mapToEmployee(employeeDto);
 
          // Converting the employeeDto in employee Jpa by using model mapper
@@ -77,12 +78,13 @@ public class EmployeeServiceimpl implements EmployeeService {
         Employee employee = employeeRepository.findById(employeeById).get();
 
 
+
         // using Webclient calling the departmentmethod
-       Departmentdto departmentdto = webClient.get()
-                .uri("http://localhost:8083/api/departments/" + employee.getDepartmentCode())
-                .retrieve()
-                .bodyToMono(Departmentdto.class)
-                .block();
+//       Departmentdto departmentdto = webClient.get()
+//                .uri("http://localhost:8083/api/departments/" + employee.getDepartmentCode())
+//                .retrieve()
+//                .bodyToMono(Departmentdto.class)
+//                .block();
 
         // RestTemplate
 //       ResponseEntity<Departmentdto>  responseEntity = restTemplate.getForEntity("http://localhost:8083/api/departments/"+ employee.getDepartmentCode(),
@@ -90,7 +92,7 @@ public class EmployeeServiceimpl implements EmployeeService {
 //       Departmentdto departmentdto= responseEntity.getBody();
 
 // method 3
-        EmployeeDto employeeDto = modelMapper.map(employee,EmployeeDto.class );
+
 
 //  method 2       EmployeeDto employeeDto=EmployeeMapper.maptoEmployeeDto(employee);
 
@@ -100,10 +102,13 @@ public class EmployeeServiceimpl implements EmployeeService {
 //                employee.getLastName(),
 //                employee.getEmail()
 //        );
+        EmployeeDto employeeDto = modelMapper.map(employee,EmployeeDto.class );
+
+        DepartmentDto  departmentDto = apiClient.getDepartment(employee.getDepartmentCode());
 
         APIResponceDto apiResponceDto = new APIResponceDto();
         apiResponceDto.setEmployee(employeeDto);
-        apiResponceDto.setDepartment(departmentdto);
+        apiResponceDto.setDepartment(departmentDto);
         return apiResponceDto;
     }
 //

@@ -8,6 +8,8 @@ import com.project.emplotyee.service.entity.Employee;
 public interface EmployeeService {
 
 EmployeeDto saveemployeed(EmployeeDto employeeDto);
+    
+//EmployeeDto saveEmployeeId(EmployeeDto employeeDto);
 APIResponceDto GetEmployeeById(Long employeeById);
 
 

@@ -12,7 +12,7 @@ public interface AutoEmployeeMapper {
 
     AutoEmployeeMapper MAPPER= Mappers.getMapper(AutoEmployeeMapper.class);
 
-    // converting teh Jpa into Employeedto
+    // converting the  Jpa into Employeedto
 
     Employee mapToEmployee(EmployeeDto employeeDto);
 
