@@ -9,9 +9,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="api-gateway" />
         <module name="config-server" />
+        <module name="organization-service" />
         <module name="service-registry" />
+        <module name="organization-service (1)" />
       </profile>
-      <profile name="Annotation profile for emplotyee-service" enabled="true">
+      <profile name="Annotation profile for department-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -30,6 +32,9 @@
       <module name="config-server" target="17" />
       <module name="department-service" target="17" />
       <module name="emplotyee-service" target="17" />
+      <module name="organization-service" target="17" />
+      <module name="organization-service (1)" target="1.5" />
+      <module name="organization-service (2)" target="1.5" />
       <module name="service-registry" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -39,6 +44,7 @@
       <module name="config-server" options="-parameters" />
       <module name="department-service" options="-parameters" />
       <module name="emplotyee-service" options="-parameters" />
+      <module name="organization-service" options="-parameters" />
       <module name="service-registry" options="-parameters" />
     </option>
   </component>
