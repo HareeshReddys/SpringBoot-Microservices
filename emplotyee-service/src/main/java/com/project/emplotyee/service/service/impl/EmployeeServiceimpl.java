@@ -3,6 +3,7 @@ package com.project.emplotyee.service.service.impl;
 import com.project.emplotyee.service.dto.APIResponceDto;
 import com.project.emplotyee.service.dto.DepartmentDto;
 import com.project.emplotyee.service.dto.EmployeeDto;
+import com.project.emplotyee.service.dto.OrganizationDto;
 import com.project.emplotyee.service.entity.Employee;
 import com.project.emplotyee.service.mapper.AutoEmployeeMapper;
 import com.project.emplotyee.service.mapper.EmployeeMapper;
@@ -26,7 +27,7 @@ public class EmployeeServiceimpl implements EmployeeService {
 
 
 //    public RestTemplate restTemplate
- //    private WebClient webClient;
+     private WebClient webClient;
     private APIClient apiClient;
     public EmployeeRepository employeeRepository;
 
@@ -102,13 +103,23 @@ public class EmployeeServiceimpl implements EmployeeService {
 //                employee.getLastName(),
 //                employee.getEmail()
 //        );
+
+        OrganizationDto organizationDto = webClient.get()
+                .uri("http://localhost:9096/api/organization/" + employee.getOrganizationCode())
+                .retrieve()
+                .bodyToMono(OrganizationDto.class)
+                .block();
         EmployeeDto employeeDto = modelMapper.map(employee,EmployeeDto.class );
 
         DepartmentDto  departmentDto = apiClient.getDepartment(employee.getDepartmentCode());
+//        OrganizationDto  = apiClient.getDepartment(employee.getOrganizationCode());
+//        OrganizationDto organizationDto = apiClient.getOrganization(employee.getOrganizationCode());
+
 
         APIResponceDto apiResponceDto = new APIResponceDto();
         apiResponceDto.setEmployee(employeeDto);
         apiResponceDto.setDepartment(departmentDto);
+        apiResponceDto.setOrganization(organizationDto);
         return apiResponceDto;
     }
 //
